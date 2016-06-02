@@ -2,16 +2,18 @@ package neuralnetwork;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Artem on 11.05.2016.
  */
-public class NeuralNetwork {
+public class NeuralNetwork implements Classifier {
     private List<Layer> layers;
     private List<Double> output;
 
     private final static int NUMBER_OF_EPOCHS = 10000;
     private final static double ERROR_TOLERANCE = 0.01;
+    private final static double DEFAULT_ALPHA = 0.3;
 
     public NeuralNetwork() {
         layers = new ArrayList<>();
@@ -44,6 +46,10 @@ public class NeuralNetwork {
 
         output = new ArrayList<>(inputs);
         return getClassID();
+    }
+
+    public void trainNetwork(List<List<Double>> inputs, List<List<Double>> correctAnswers) {
+        trainNetwork(inputs, correctAnswers, DEFAULT_ALPHA);
     }
 
     public void trainNetwork(List<List<Double>> inputs, List<List<Double>> correctAnswers, double alpha) {
@@ -83,46 +89,6 @@ public class NeuralNetwork {
         }
     }
 
-    public void testNetwork(List<List<Double>> inputs, List<List<Double>> correctAnswers) {
-        if (inputs == null) {
-            throw new NullPointerException("NeuralNetwork: inputs can't be null");
-        }
-
-        if (correctAnswers == null) {
-            throw new NullPointerException("NeuralNetwork: correctAnswers can't be null");
-        }
-
-        if (inputs.size() != correctAnswers.size()) {
-            throw new IllegalArgumentException("NeuralNetwork: inputs and correctAnswers should be of the same size");
-        }
-
-        System.out.println("\n --------- TEST ---------\n");
-
-        int totalInputsCounter = 0;
-        int correctAnswersCounter = 0;
-
-        for (int i = 0; i < inputs.size(); ++i) {
-            int classID = classify(inputs.get(i));
-            int correctClass = 0;
-
-            for (int j = 0; j < correctAnswers.get(i).size(); ++j) {
-                if (correctAnswers.get(i).get(j) == 1.0)
-                    correctClass = j;
-            }
-
-            System.out.println(inputs.get(i) + " => " + classID + ". Correct answer: " + correctClass);
-
-            if (classID == correctClass)
-                ++correctAnswersCounter;
-
-            ++totalInputsCounter;
-        }
-
-        double accuracy =  1.0 * correctAnswersCounter / totalInputsCounter;
-
-        System.out.println("\nAccuracy: " + accuracy);
-    }
-
     public int getClassID() {
         double maxOutput = Double.MIN_VALUE;
         int classID = -1;
@@ -139,6 +105,15 @@ public class NeuralNetwork {
 
     List<Double> getOutputs() {
         return this.output;
+    }
+
+    List<Double> getOutputs(List<Double> input) {
+        this.classify(input);
+        return new ArrayList<>(this.getOutputs());
+    }
+
+    List<List<Double>> getOutputsList(List<List<Double>> inputs) {
+        return inputs.stream().map(this::getOutputs).collect(Collectors.toList());
     }
 
     public List<List<Double>> getLayerWeights(int layerIndex) {
