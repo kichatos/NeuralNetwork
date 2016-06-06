@@ -20,14 +20,24 @@ public class Main {
     private static List<List<Double>> ans;
 
     public static void main(String[] args) {
-        List<Integer> neurons = Arrays.asList(4, 7, 3);
+        UnlabelledReader reader = new UnlabelledReader();
+        reader.next();
+        List<Integer> neurons = Arrays.asList(9, 81, 53, 26);
         DBN dbn = new DBN(neurons);
+        while (reader.hasNext()) {
+            dbn.preTrainNetwork(reader.next());
+            dbn.save("" + (reader.getPosition() - 1) + "-" + reader.getFilePosition() + ".txt");
+        }
 
-        readData(".\\Data\\Iris.txt");
-        scale(inputs);
+//        DBN dbn = DBN.load("dbn.txt");
 
-        dbn.trainNetwork(inputs, ans);
-        dbn.testClassifier(inputs, ans);
+//        readData(".\\Data\\Iris.txt");
+//        scale(inputs);
+
+//        dbn.trainNetwork(inputs, ans);
+//        dbn.testClassifier(inputs, ans);
+//        dbn.save("dbn.txt");
+
     }
 
     private static void scale(List<List<Double>> data) {

@@ -47,6 +47,8 @@ public class RBM {
         this.visibleLayerSize = weights.size();
         this.hiddenLayerSize = weights.get(0).size();
         this.setWeights(weights);
+        this.visBiases = Matrix.zeros(1, visibleLayerSize);
+        this.hidBiases = Matrix.zeros(1, hiddenLayerSize);
     }
 
     public RBM(List<List<Double>> weights, List<Double> hiddenBiases) {
@@ -115,6 +117,7 @@ public class RBM {
 
         double momentum = initialMomentum;
 
+        double prevError = 0.0;
         for (int epoch = 0; epoch < maxEpoch; ++epoch) {
             Matrix posHidProbs = data.multiply(visHid).add(hidBiases.rep(numCases));
             Matrix posProds = data.transpose().multiply(posHidProbs);
@@ -143,6 +146,12 @@ public class RBM {
             visHid = visHid.add(visHidInc);
             visBiases = visBiases.add(visBiasInc);
             hidBiases = hidBiases.add(hidBiasInc);
+
+            if (Math.abs(error - prevError) < 1E-3) {
+                break;
+            }
+
+            prevError = error;
         }
 
     }
@@ -162,15 +171,15 @@ public class RBM {
             output.print(visibleLayerSize);
             output.print(' ');
             output.print(hiddenLayerSize);
-            output.println();
+            output.print(' ');
 
             for (int i = 0; i < visibleLayerSize; ++i) {
                 for (int j = 0; j < hiddenLayerSize; ++j) {
                     output.print(visHid.get(i, j));
-                    output.print(' ');
+                    if (!(i == visibleLayerSize && j == hiddenLayerSize)) {
+                        output.print(' ');
+                    }
                 }
-
-                output.println();
             }
 
             return stringWriter.toString();

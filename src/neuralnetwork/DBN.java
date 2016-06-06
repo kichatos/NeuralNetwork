@@ -36,7 +36,7 @@ public class DBN implements Classifier {
         }
     }
 
-    public void recreateRBMS() {
+    private void recreateRBMS() {
         rbms.set(0, new RBM(Matrix.fromList(network.getLayerWeights(0)).transpose().toList(), network.getBiases(0)));
         for (int i = 1; i < layerSizes.size() - 1; ++i) {
             rbms.set(i, new RBM(Matrix.fromList(network.getLayerWeights(i)).transpose().toList(), network.getBiases(i), network.getBiases(i - 1)));
@@ -53,7 +53,7 @@ public class DBN implements Classifier {
         network.trainNetwork(inputs, mapAnswers(correctAnswers));
     }
 
-    private void preTrainNetwork(List<List<Double>> inputs) {
+    public void preTrainNetwork(List<List<Double>> inputs) {
         rbms.get(0).trainNetwork(inputs);
         NeuralNetwork fullNetwork = new NeuralNetwork(Arrays.asList(layerSizes.get(0), layerSizes.get(1)));
         fullNetwork.setLayerWeights(0, Matrix.fromList(rbms.get(0).getWeights()).transpose().toList());
@@ -84,10 +84,6 @@ public class DBN implements Classifier {
         }
 
         return res;
-    }
-
-    public void testNetwork(List<List<Double>> inputs, List<List<Double>> correctAnswers) {
-        network.testClassifier(inputs, correctAnswers);
     }
 
     private void updateNeuronToClassMapping(List<List<Double>> inputs, List<List<Double>> correctAnswers) {
@@ -154,6 +150,7 @@ public class DBN implements Classifier {
                 res.layerSizes.add(input.nextInt());
             }
 
+            input.nextLine();
             for (int i = 1; i < numberOfLayers; ++i) {
                 res.rbms.add(RBM.loadString(input.nextLine()));
             }
