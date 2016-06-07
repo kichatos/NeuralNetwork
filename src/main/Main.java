@@ -16,25 +16,31 @@ public class Main {
     private static List<List<Double>> ans;
 
     /**
-     * @param args
-     * args[0] - path to Unlablelled folder
-     * args[1] - "continue" or "new" //optional
-     * args[2] - path to previous network file //if only args[1] == "continue"
+     * @param args args[0] - path to Unlablelled folder
+     *             args[1] - "continue" or "new" //optional
+     *             args[2] - path to previous network file //if only args[1] == "continue"
+     *             args[3] - file number //if only args[1] == "continue"
+     *             args[4] - line number //if only args[1] == "continue"
      */
     public static void main(String[] args) {
         int fileNumber = 1;
         int lineNumber = 0;
-        UnlabelledReader reader = new UnlabelledReader(fileNumber, lineNumber);
-        DBN dbn;
         String unlabelledPath;
         if (args.length > 0) {
             unlabelledPath = args[0];
+            if (args.length == 5 && args[1].equals("continue")) {
+                fileNumber = Integer.valueOf(args[3]);
+                lineNumber = Integer.valueOf(args[4]);
+            }
         } else {
             unlabelledPath = "E:\\Wsl_F\\new_unlabelled";
         }
-        UnlabelledReader.setPath(unlabelledPath);
 
-        if (args.length == 3 && args[1].equals("continue")) {
+        UnlabelledReader.setPath(unlabelledPath);
+        UnlabelledReader reader = new UnlabelledReader(fileNumber, lineNumber);
+
+        DBN dbn;
+        if (args.length == 5 && args[1].equals("continue")) {
             dbn = DBN.load(args[2]);
         } else {
             List<Integer> neurons = Arrays.asList(9, 81, 53, 26);
