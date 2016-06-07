@@ -3,6 +3,7 @@ package neuralnetwork;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class RBM {
@@ -210,7 +211,7 @@ public class RBM {
     }
 
     public static RBM load(String path) throws FileNotFoundException {
-        try (Scanner input = new Scanner(new File(path))) {
+        try (Scanner input = new Scanner(new File(path)).useLocale(Locale.US)) {
             int visibleLayerSize = input.nextInt();
             int hiddenLayerSize = input.nextInt();
 
