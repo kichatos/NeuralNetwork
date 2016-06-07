@@ -2,10 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class UnlabelledReader implements Iterator<List<List<Double>>> {
     private int fileNumber;
@@ -47,7 +44,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
         List<List<Double>> res = new ArrayList<>();
         Scanner input;
         try {
-            input = new Scanner(new File(path + fileNumber + ext));
+            input = new Scanner(new File(path + fileNumber + ext)).useLocale(Locale.US);
             int currentLine = 0;
             while (input.hasNextLine() && res.size() < batchSize) {
                 if (currentLine == lineNumber) {
@@ -60,6 +57,8 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
                     res.add(row);
                     ++lineNumber;
+                } else {
+                    input.nextLine();
                 }
 
                 ++currentLine;
@@ -67,6 +66,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
             if (!input.hasNextLine()) {
                 ++fileNumber;
+                lineNumber = 0;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
