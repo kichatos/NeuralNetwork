@@ -231,7 +231,7 @@ public class RBM {
 
     public static RBM loadString(String string) throws FileNotFoundException {
         try (StringReader stringReader = new StringReader(string);
-                Scanner input = new Scanner(stringReader)) {
+                Scanner input = new Scanner(stringReader).useLocale(Locale.US)) {
             int visibleLayerSize = input.nextInt();
             int hiddenLayerSize = input.nextInt();
 
