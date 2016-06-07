@@ -13,7 +13,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
     private static final int fileStart = 0;
     private static final int batchSize = 10;
 
-    private static final String path = "D:\\data\\new_unlabelled\\";
+    private static String path = "D:\\data\\new_unlabelled\\";
     private static final String ext = ".csv";
 
 
@@ -23,6 +23,10 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
     public UnlabelledReader() {
         this(firstPosition, fileStart);
+    }
+
+    public static void setPath(String path) {
+        UnlabelledReader.path= path;
     }
 
     public UnlabelledReader(int fileNumber, int lineNumber) {

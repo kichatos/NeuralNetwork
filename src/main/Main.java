@@ -15,13 +15,31 @@ public class Main {
     private static List<List<Double>> inputs;
     private static List<List<Double>> ans;
 
+    /**
+     * @param args
+     * args[0] - path to Unlablelled folder
+     * args[1] - "continue" or "new" //optional
+     * args[2] - path to previous network file //if only args[1] == "continue"
+     */
     public static void main(String[] args) {
         int fileNumber = 1;
         int lineNumber = 0;
         UnlabelledReader reader = new UnlabelledReader(fileNumber, lineNumber);
-        List<Integer> neurons = Arrays.asList(9, 81, 53, 26);
-        DBN dbn = new DBN(neurons);
-        // DBN dbn = DBN.load("<name>.txt");
+        DBN dbn;
+        String unlabelledPath;
+        if (args.length > 0) {
+            unlabelledPath = args[0];
+        } else {
+            unlabelledPath = "E:\\Wsl_F\\new_unlabelled";
+        }
+        UnlabelledReader.setPath(unlabelledPath);
+
+        if (args.length == 3 && args[1].equals("continue")) {
+            dbn = DBN.load(args[2]);
+        } else {
+            List<Integer> neurons = Arrays.asList(9, 81, 53, 26);
+            dbn = new DBN(neurons);
+        }
 
         String lastPath = null;
         while (reader.hasNext()) {
