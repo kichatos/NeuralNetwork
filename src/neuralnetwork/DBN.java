@@ -139,7 +139,7 @@ public class DBN implements Classifier {
     public static DBN load(String path) {
         DBN res = new DBN();
 
-        try (Scanner input = new Scanner(new File(path))) {
+        try (Scanner input = new Scanner(new File(path)).useLocale(Locale.US)) {
             res.numberOfClasses = input.nextInt();
             for (int i = 0; i < res.numberOfClasses; ++i) {
                 res.neuronToClass.put(i, input.nextInt());

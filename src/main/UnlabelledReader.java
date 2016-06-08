@@ -2,10 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class UnlabelledReader implements Iterator<List<List<Double>>> {
     private int fileNumber;
@@ -16,7 +13,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
     private static final int fileStart = 0;
     private static final int batchSize = 10000;
 
-    private static final String path = ".\\Data\\Fake\\Unlabelled\\";
+    private static String path = "D:\\data\\new_unlabelled\\";
     private static final String ext = ".csv";
 
 
@@ -26,6 +23,10 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
     public UnlabelledReader() {
         this(firstPosition, fileStart);
+    }
+
+    public static void setPath(String path) {
+        UnlabelledReader.path= path;
     }
 
     public UnlabelledReader(int fileNumber, int lineNumber) {
@@ -47,7 +48,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
         List<List<Double>> res = new ArrayList<>();
         Scanner input;
         try {
-            input = new Scanner(new File(path + fileNumber + ext));
+            input = new Scanner(new File(path + fileNumber + ext)).useLocale(Locale.US);
             int currentLine = 0;
             while (input.hasNextLine() && res.size() < batchSize) {
                 if (currentLine == lineNumber) {

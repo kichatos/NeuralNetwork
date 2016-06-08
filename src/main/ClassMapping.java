@@ -2,10 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ClassMapping {
     static final String path = ".\\Data\\classes.txt";
@@ -15,7 +12,7 @@ public class ClassMapping {
 
     static {
         try {
-            Scanner scanner = new Scanner(new File(path));
+            Scanner scanner = new Scanner(new File(path)).useLocale(Locale.US);
             for (int i = 0; i < numberOfClasses; ++i) {
                 Integer real = scanner.nextInt();
                 realToModel.put(real, i);

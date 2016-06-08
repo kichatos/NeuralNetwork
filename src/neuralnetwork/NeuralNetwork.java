@@ -205,7 +205,7 @@ public class NeuralNetwork implements Classifier {
     public static NeuralNetwork loadNetwork(String fileAddress) throws IOException {
         File file = new File(fileAddress);
         InputStream inp = new FileInputStream(file);
-        Scanner scanner = new Scanner(inp);
+        Scanner scanner = new Scanner(inp).useLocale(Locale.US);
 
         NeuralNetwork neuralNetwork = new NeuralNetwork();
 
