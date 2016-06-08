@@ -62,27 +62,7 @@ public class Main {
                 }
             }
 
-        dbn.trainNetwork(inputs, answers);
-        dbn.testClassifier(inputs, answers);
-        dbn.save("clean.txt");
-//        DBN dbn = DBN.load("\\1-780000.txt");
-
-//        String lastPath = null;
-//        while (reader.hasNext()) {
-//            int currentFile = reader.getFileNumber();
-//            int currentLine = reader.getLineNumber();
-//
-//            dbn.preTrainNetwork(reader.next());
-//            String path = "" + currentFile + "-" + currentLine + ".txt";
-//            dbn.save(path);
-//            if (lastPath != null) {
-//                boolean deleted = new File(lastPath).delete() && new File(lastPath + "net.txt").delete();
-//                if (!deleted) {
-//                    System.out.println("Failed to remove previous network.");
-//                }
-//            }
-//
-//            lastPath = path;
-//        }
+            lastPath = path;
+        }
     }
 }
