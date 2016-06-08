@@ -12,11 +12,11 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
     private int lineNumber;
 
     private static final int firstPosition = 1;
-    private static final int lastPosition = 208;
+    private static final int lastPosition = 3;
     private static final int fileStart = 0;
-    private static final int batchSize = 10;
+    private static final int batchSize = 10000;
 
-    private static final String path = "D:\\data\\new_unlabelled\\";
+    private static final String path = ".\\Data\\Fake\\Unlabelled\\";
     private static final String ext = ".csv";
 
 
@@ -60,6 +60,8 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
                     res.add(row);
                     ++lineNumber;
+                } else {
+                    input.nextLine();
                 }
 
                 ++currentLine;
@@ -67,6 +69,7 @@ public class UnlabelledReader implements Iterator<List<List<Double>>> {
 
             if (!input.hasNextLine()) {
                 ++fileNumber;
+                lineNumber = 0;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

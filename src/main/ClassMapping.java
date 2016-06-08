@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ClassMapping {
-    static final String path = ".\\classes.txt";
+    static final String path = ".\\Data\\classes.txt";
     static final int numberOfClasses = 26;
     static Map<Integer, Integer> realToModel = new HashMap<>();
     static Map<Integer, Integer> modelToReal = new HashMap<>();
